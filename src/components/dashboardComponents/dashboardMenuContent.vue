@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex row justify-content-center">
     <div class="d-flex justify-content-center mt-5">
-      <button class="btn import-btn btn-primary d-flex">Importer data</button>
+      <input type="file" id="csvFile" accept=".csv" @change="handleFileChange" style="display: none;" ref="fileInput">
+      <button class="btn import-btn btn-primary d-flex" @click="triggerFileInput">Importer data</button>
     </div>
   </div>
   <div>
@@ -10,7 +11,34 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useApiStore } from './store';
 import dropdownComponent from './dropdownComponent.vue';
+
+const fileInput = ref(null);
+const apiStore = useApiStore();
+
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+const handleFileChange = async (event) => {
+  const file = event.target.files[0];
+
+  if (!file) {
+    alert("Please select a CSV file first.");
+    return;
+  }
+
+  try {
+    const data = await apiStore.uploadCSV(file);
+    console.log('Success:', data);
+    alert('File uploaded successfully');
+  } catch (error) {
+    console.error('Error:', error);
+    prompt('File upload failed. Copy the error message:', error.message || error);
+  }
+};
 </script>
 
 <style scoped>
