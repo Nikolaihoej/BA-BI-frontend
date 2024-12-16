@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useApiStore } from './store';
+import { useApiStore } from '../../stores/useApiStore';
 import dropdownComponent from './dropdownComponent.vue';
 
 const fileInput = ref(null);
