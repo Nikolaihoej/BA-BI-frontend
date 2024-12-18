@@ -48,25 +48,4 @@ const handleFileChange = async (event) => {
   border-color: #6cb4e4 !important;
 }
 
-.file-btn {
-  background-color: white !important;
-  border-color: white !important;
-  width: 100%;
-}
-
-.file-btn:hover, .file-btn:focus, .file-btn:active {
-  color: black !important;
-  background-color: white !important;
-  border-color: white !important;
-}
-
-.dropdown-menu.show {
-    width: 88%;
-}
-
-.file-dropdown {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-}
-
 </style>

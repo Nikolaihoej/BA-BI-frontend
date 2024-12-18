@@ -44,7 +44,6 @@
   };
 
   const login = () => {
-    // Add your login logic here
     router.push('/oversigt');
   };
 

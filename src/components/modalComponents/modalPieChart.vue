@@ -1,7 +1,7 @@
 <template>
   <div class="modal-create-content">
     <div class="modal-header">
-      <h5 class="modal-title">Oprat pie chart</h5>
+      <h5 class="modal-title">Opret pie chart</h5>
       <button type="button" class="btn-close" @click="closeModal"></button>
     </div>
     <div class="modal-body">

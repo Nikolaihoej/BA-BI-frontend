@@ -17,12 +17,10 @@
   import lineChartComponent from "./chartContainer/lineChartComponent.vue";
   import pieChartComponent from "./chartContainer/pieChartComponent.vue";
 
-  // Create a component map
   const componentMap = {
     barChartComponent: { component: barChartComponent, width: 4, height: 2 },
     lineChartComponent: { component: lineChartComponent, width: 4, height: 2 },
     pieChartComponent: { component: pieChartComponent, width: 2, height: 2 },
-    // Add more components here
   };
 
   const gridItems = ref([]);
@@ -33,8 +31,8 @@
     grid = GridStack.init({});
   });
   
-  // Method to add components dynamically to the grid
-const addComponent = (componentName, props) => {
+
+  const addComponent = (componentName, props) => {
   const componentData = componentMap[componentName];
   if (!componentData) {
     return;
@@ -49,7 +47,6 @@ const addComponent = (componentName, props) => {
     component: componentData.component,
     props: {
       ...props,
-      // someProp: `Data passed to ${componentName}`,
     }
   };
   
@@ -59,7 +56,7 @@ const addComponent = (componentName, props) => {
   // Add the new item to gridItems
   gridItems.value.push(newGridItem);
 
-  // After adding the new item, update the layout
+  // update the layout
   nextTick(() => {
     const gridItemElements = document.querySelectorAll('.grid-stack-item');
     const newItemElement = gridItemElements[gridItemElements.length - 1];
@@ -70,7 +67,7 @@ const addComponent = (componentName, props) => {
   });
 };
 
-// Method to remove a widget
+// remove a widget
 const removeWidget = (id) => {
   const widget = document.querySelector(`[gs-id="${id}"]`);
   if (widget) {

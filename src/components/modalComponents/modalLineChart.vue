@@ -1,7 +1,7 @@
 <template>
   <div class="modal-create-content">
     <div class="modal-header">
-      <h5 class="modal-title">Oprat line chart</h5>
+      <h5 class="modal-title">Opret line chart</h5>
       <button type="button" class="btn-close" @click="closeModal"></button>
     </div>
     <div class="modal-body">
@@ -47,7 +47,6 @@ const dashboardStore = useDashboardStore();
 const selectedLabels = ref({
   age: false,
   TrainingSessionsThisMonth: false,
-  // Signup_Date: false,
 
 });
 

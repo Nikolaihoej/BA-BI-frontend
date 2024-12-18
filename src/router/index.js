@@ -17,10 +17,10 @@ const router = createRouter({
       component: overview,
    },
    {
-      path: '/dashboard/:title', // Dynamic route for dashboard
+      path: '/dashboard/:title',
       name: 'dashboardWithTitle',
       component: dashboard,
-      props: true, // Pass route params as props to the component
+      props: true,
    },
   ],
 })
