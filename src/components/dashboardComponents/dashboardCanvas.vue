@@ -4,6 +4,7 @@
       <div class="dashboard-canvas-title">
         <h1>Dashboard - {{ title }}</h1>
       </div>
+      <button @click="serializeGridItems">Serialize Grid Items</button>
       <div class="pdf-btn btn btn-primary btn-sm" @click="downloadPdf">Download pdf</div>
     </div>
     <GridStackItemsComponent class="gridStack-items" ref="gridStackItemsComponent" :title="title"/>
@@ -25,6 +26,10 @@ onMounted(() => {
 const props = defineProps({
   title: String
 });
+
+const serializeGridItems = () => {
+  gridStackStore.serializeGridItems();
+};
 
 const downloadPdf = () => {
   window.print();

@@ -6,7 +6,7 @@ export const useApiStore = defineStore('apiStore', {
   state: () => ({
     allData: [],
     activityData: [],
-    jwtToken: null,
+    jwtToken: localStorage.getItem('jwtToken') || null,
   }),
   actions: {
     async fetchCustomersData() {
@@ -45,9 +45,6 @@ export const useApiStore = defineStore('apiStore', {
     },
     async login(email, password) {
       try {
-        // const csrfToken = await this.getCSRFToken();
-        // axios.defaults.headers.common['X-CSRF-Token'] = csrfToken;
-        
         const response = await axios.post('http://127.0.0.1:8000/login', {
           email,
           password
@@ -55,6 +52,7 @@ export const useApiStore = defineStore('apiStore', {
 
         // Store the JWT token
         this.jwtToken = response.data.token;
+        localStorage.setItem('jwtToken', this.jwtToken);
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.jwtToken}`;
 
         console.log('Login successful:', response.data);
