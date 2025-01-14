@@ -2,9 +2,8 @@
   <div class="dashboard-canvas mx-3" >
     <div class="canvas-header d-flex justify-content-between text-center align-items-center">
       <div class="dashboard-canvas-title">
-        <h1>Dashboard - {{ title }}</h1>
+        <h1>Dashboard - {{ dashboardStore.selectedDashboardTitle }}</h1>
       </div>
-      <button @click="serializeGridItems">Serialize Grid Items</button>
       <div class="pdf-btn btn btn-primary btn-sm" @click="downloadPdf">Download pdf</div>
     </div>
     <GridStackItemsComponent class="gridStack-items" ref="gridStackItemsComponent" :title="title"/>
@@ -12,24 +11,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import GridStackItemsComponent from './gridStackItemsComponent.vue';
 import { useGridStackStore } from '@/stores/useGridStackStore';
+import { useDashboardStore } from '@/stores/useDashboardStore';
+import { useRoute } from 'vue-router';
 
 const gridStackItemsComponent = ref(null);
 const gridStackStore = useGridStackStore();
+const dashboardStore = useDashboardStore();
+
+const title = computed(() => title.value);
+
+
 
 onMounted(() => {
+  const route = useRoute();
+  console.log(route.params.title);
+  dashboardStore.loadSelectedDashboard(route.params.title);
   gridStackStore.setGridStackItemsComponent(gridStackItemsComponent.value);
 })
+
 
 const props = defineProps({
   title: String
 });
 
-const serializeGridItems = () => {
-  gridStackStore.serializeGridItems();
-};
 
 const downloadPdf = () => {
   window.print();
@@ -72,9 +79,6 @@ const downloadPdf = () => {
       width: 100% !important;
     }
   }
-
-  
-
 }
 
 </style>

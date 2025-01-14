@@ -26,12 +26,10 @@
 </template>
   
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useDashboardStore } from '../../stores/useDashboardStore';
-import { useRouter } from 'vue-router';
 
 const DashboardStore = useDashboardStore();
-const router = useRouter();
 
 const dashboardTitle = ref('');
 const dashboardCategory = ref('');
@@ -46,11 +44,32 @@ const closeModal = () => {
 };
 
 const saveDashboard = () => {
+  const dashboard = {
+    title: dashboardTitle.value,
+    category: dashboardCategory.value,
+  };
+  let dashboards = JSON.parse(localStorage.getItem('savedDashboard'));
+  if (!Array.isArray(dashboards)) {
+    if(JSON.parse(localStorage.getItem('savedDashboard')) === null) {
+      dashboards = [];
+    } else {
+      dashboards = [JSON.parse(localStorage.getItem('savedDashboard'))];
+    }
+  }
+  dashboards.push(dashboard);
+  localStorage.setItem('savedDashboard', JSON.stringify(dashboards));
   DashboardStore.addDashboard(dashboardTitle.value, dashboardCategory.value);
   closeModal();
-  DashboardStore.showDashboard();
-  router.push(`/dashboard/${dashboardTitle.value}`);
 };
+
+onMounted(() => {
+  const savedDashboard = localStorage.getItem('savedDashboard');
+  if (savedDashboard) {
+    const { title, category } = JSON.parse(savedDashboard);
+    dashboardTitle.value = title;
+    dashboardCategory.value = category;
+  }
+});
 </script>
 
 <style>

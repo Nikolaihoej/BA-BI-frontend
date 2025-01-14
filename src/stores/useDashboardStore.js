@@ -7,6 +7,7 @@ export const useDashboardStore = defineStore('dashboard', {
     modalContent: '',
     showDashboardCanvas: false,
     dashboards: [],
+    selectedDashboardTitle: '', // Add this line
   }),
   actions: {
     openModal(content) {
@@ -17,11 +18,42 @@ export const useDashboardStore = defineStore('dashboard', {
       this.showModal = false;
       this.modalContent = '';
     },
-    showDashboard() { 
+    showDashboard(title) { // Update this method
+      this.selectedDashboardTitle = title;
       this.showDashboardCanvas = true;
     },
     addDashboard(title, category) {
       this.dashboards.push({ id: this.dashboards.length + 1, title, category });
+      this.showDashboard(title); // Show the newly added dashboard
     },
+    //ny funktion
+    loadSelectedDashboard(title) {
+        const dashboard = JSON.parse(localStorage.getItem('savedDashboard'));
+        console.log(dashboard);
+        console.log(title);
+        const foundDashboard = this.findDashboard(title);
+        console.log(foundDashboard);
+        console.log(dashboard)
+        if (!this.findDashboard(title)) {
+          this.addDashboard(dashboard[dashboard.length - 1].title, dashboard[dashboard.length - 1].category);
+        } else {
+          this.selectedDashboardTitle = foundDashboard.title;
+          this.shhowDashboardCanvas = true;
+        }
+    },
+    loadAllDashboards() {
+      const dashboards = JSON.parse(localStorage.getItem('savedDashboard'));
+      console.log(dashboards);
+      if (dashboards) {
+        for (const dashboard of dashboards) {
+          if (!this.findDashboard(dashboard.title)) {
+            this.dashboards.push(dashboard);
+          }
+        }
+      }
+    },
+    findDashboard(title) {
+      return this.dashboards.find(dashboard => dashboard.title === title);
+    }
   }
 });

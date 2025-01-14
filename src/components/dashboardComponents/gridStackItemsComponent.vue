@@ -16,7 +16,6 @@
   import barChartComponent from "./chartContainer/barChartComponent.vue";
   import lineChartComponent from "./chartContainer/lineChartComponent.vue";
   import pieChartComponent from "./chartContainer/pieChartComponent.vue";
-  import { useGridStackStore } from '../../stores/useGridStackStore';
 
   const componentMap = {
     barChartComponent: { component: barChartComponent, width: 4, height: 2 },
@@ -27,7 +26,6 @@
   const gridItems = ref([]);
   let grid = null;
   let widgetCounter = 1;
-  const gridStackStore = useGridStackStore();
 
   onMounted(() => {
     grid = GridStack.init({});
@@ -52,7 +50,6 @@
     }
   };
   
-
   widgetCounter++;
 
   // Add the new item to gridItems
@@ -76,26 +73,9 @@ const removeWidget = (id) => {
     grid?.removeWidget(widget);
   }
 };
-
-// Serialize grid items
-const serializeGridItems = () => {
-  const serializedItems = gridItems.value.map(item => {
-    const el = document.querySelector(`[gs-id="${item.id}"]`);
-    return {
-      id: item.id,
-      x: el.getAttribute('gs-x'),
-      y: el.getAttribute('gs-y'),
-      width: el.getAttribute('gs-w'),
-      height: el.getAttribute('gs-h'),
-      component: item.component.name,
-      props: item.props
-    };
-  });
-  return serializedItems;
-};
   
 // Expose the addComponent method
-defineExpose({ addComponent, removeWidget, serializeGridItems });
+defineExpose({ addComponent, removeWidget});
 </script>
 
 <style>

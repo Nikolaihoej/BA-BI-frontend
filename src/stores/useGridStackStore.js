@@ -15,12 +15,5 @@ export const useGridStackStore = defineStore('gridStack', {
         this.gridStackItemsComponent.addComponent(componentName, props);
       }
     },
-    serializeGridItems() {
-      if (this.gridStackItemsComponent) {
-        const serializedItems = this.gridStackItemsComponent.serializeGridItems();
-        this.serializedGridItems = serializedItems;
-        console.log('Serialized Grid Items:', serializedItems);
-      }
-    }
   },
 });
