@@ -29,21 +29,20 @@ export const useDashboardStore = defineStore('dashboard', {
     //ny funktion
     loadSelectedDashboard(title) {
         const dashboard = JSON.parse(localStorage.getItem('savedDashboard'));
-        console.log(dashboard);
-        console.log(title);
         const foundDashboard = this.findDashboard(title);
-        console.log(foundDashboard);
-        console.log(dashboard)
+
         if (!this.findDashboard(title)) {
           this.addDashboard(dashboard[dashboard.length - 1].title, dashboard[dashboard.length - 1].category);
         } else {
           this.selectedDashboardTitle = foundDashboard.title;
-          this.shhowDashboardCanvas = true;
+          this.showDashboardCanvas = true;
         }
+
+        
     },
     loadAllDashboards() {
       const dashboards = JSON.parse(localStorage.getItem('savedDashboard'));
-      console.log(dashboards);
+
       if (dashboards) {
         for (const dashboard of dashboards) {
           if (!this.findDashboard(dashboard.title)) {
