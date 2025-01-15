@@ -3,7 +3,7 @@
     <div class="content">
         <sideMenu :page="currentPage"/>
         <router-view v-slot="{ route }">
-            <dashboardCanvas v-if="showDashboardCanvas" :key="route.params.title" :title="route.params.title"/>
+            <dashboardCanvas v-if="showDashboardCanvas" :key="route.params.id" :title="route.params.id"/>
         </router-view>
     </div>
 </template>
@@ -20,8 +20,8 @@ const DashboardStore = useDashboardStore();
 const showDashboardCanvas = computed(() => DashboardStore.showDashboardCanvas);
 onMounted(() => {
     const route = useRoute();
-    if (route.params.title) {
-        DashboardStore.loadSelectedDashboard(route.params.title);
+    if (route.params.id) {
+        DashboardStore.loadSelectedDashboard(route.params.id);
     }
     DashboardStore.loadAllDashboards();
 });

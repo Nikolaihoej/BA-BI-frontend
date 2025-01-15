@@ -1,12 +1,16 @@
 <template>
-  <div class="dashboard-canvas mx-3" >
+  <div class="dashboard-canvas mx-3">
     <div class="canvas-header d-flex justify-content-between text-center align-items-center">
-      <div class="dashboard-canvas-title">
-        <h1>Dashboard - {{ dashboardStore.selectedDashboardTitle }}</h1>
+      <div class="dashboard-canvas-title d-flex">
+        <h1 v-if="!isEditing">Dashboard - {{ dashboardStore.selectedDashboardTitle }}</h1>
+        <input class="edit-title" v-else v-model="newTitle" @blur="saveTitle" @keyup.enter="saveTitle" />
+        <i v-if="!isEditing" class="bi bi-pencil mx-1" @click="editTitle"></i>
+        <i v-else class="bi bi-floppy2-fill mx-1" @click="saveTitle"></i>
       </div>
+      <div></div>
       <div class="pdf-btn btn btn-primary btn-sm" @click="downloadPdf">Download pdf</div>
     </div>
-    <GridStackItemsComponent class="gridStack-items" ref="gridStackItemsComponent" :title="title"/>
+    <GridStackItemsComponent class="gridStack-items" ref="gridStackItemsComponent" :title="title" />
   </div>
 </template>
 
@@ -23,20 +27,35 @@ const dashboardStore = useDashboardStore();
 
 const title = computed(() => title.value);
 
-
+const isEditing = ref(false);
+const newTitle = ref(dashboardStore.selectedDashboardTitle);
 
 onMounted(() => {
   const route = useRoute();
-  console.log(route.params.title);
-  dashboardStore.loadSelectedDashboard(route.params.title);
+  console.log(route.params.id);
+  dashboardStore.loadSelectedDashboard(route.params.id);
   gridStackStore.setGridStackItemsComponent(gridStackItemsComponent.value);
+  console.log(dashboardStore.dashboards)
 })
+
+const route = useRoute();
 
 
 const props = defineProps({
   title: String
 });
 
+const editTitle = () => {
+  isEditing.value = true;
+  newTitle.value = dashboardStore.selectedDashboardTitle;
+};
+
+const saveTitle = async () => {
+  if (newTitle.value) {
+    await dashboardStore.updateDashboardTitle(route.params.id, newTitle.value);
+  }
+  isEditing.value = false;
+};
 
 const downloadPdf = () => {
   window.print();
@@ -57,6 +76,15 @@ const downloadPdf = () => {
 .pdf-btn{ 
   background-color: #1C4C74 !important;
   border: none !important;
+}
+
+.edit-title {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  font-size: 2.5rem;
+  max-width: 300px;
 }
 
 @media print {

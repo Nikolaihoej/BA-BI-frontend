@@ -1,5 +1,6 @@
 // store.js
 import { defineStore } from "pinia";
+import axios from "axios";
 
 export const useDashboardStore = defineStore("dashboard", {
     state: () => ({
@@ -23,48 +24,82 @@ export const useDashboardStore = defineStore("dashboard", {
             this.selectedDashboardTitle = title;
             this.showDashboardCanvas = true;
         },
-        addDashboard(title, category) {
+        addDashboard(title, category, id) {
             this.dashboards.push({
-                id: this.dashboards.length + 1,
+                id,
                 title,
                 category,
             });
             this.showDashboard(title); // Show the newly added dashboard
         },
         //ny funktion
-        loadSelectedDashboard(title) {
-            const dashboard = JSON.parse(
-                localStorage.getItem("savedDashboard")
-            );
-            const foundDashboard = this.findDashboard(title);
+        async loadSelectedDashboard(id) {
+            const response = await axios.get(`http://127.0.0.1:8000/api/getdashboard/${id}`);
+            const dashboard = response.data;
+            const foundDashboard = this.findDashboard(dashboard.id);
 
-            if (!this.findDashboard(title)) {
+            if (!this.findDashboard(dashboard.id)) {
                 this.addDashboard(
-                    dashboard[dashboard.length - 1].title,
-                    dashboard[dashboard.length - 1].category
+					dashboard.title,
+                    dashboard.category,
+					dashboard.id
                 );
             } else {
                 this.selectedDashboardTitle = foundDashboard.title;
                 this.showDashboardCanvas = true;
             }
         },
-        loadAllDashboards() {
-            const dashboards = JSON.parse(
-                localStorage.getItem("savedDashboard")
-            );
-
-            if (dashboards) {
+        async loadAllDashboards() {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/getdashboards');
+                const dashboards = response.data;
                 for (const dashboard of dashboards) {
-                    if (!this.findDashboard(dashboard.title)) {
+                    if (!this.findDashboard(dashboard.id)) {
                         this.dashboards.push(dashboard);
                     }
                 }
+            } catch (error) {
+                console.error('Error loading dashboards:', error);
             }
         },
-        findDashboard(title) {
-            return this.dashboards.find(
-                (dashboard) => dashboard.title === title
-            );
+        findDashboard(id) {
+            const t= this.dashboards.find(dashboard => dashboard.id === id);
+			return t;
+		},
+		async deleteDashboard(id) {
+			try { 
+				const dashboard = this.findDashboard(id);
+				const response = await axios.delete(`http://127.0.0.1:8000/api/dashboard/${dashboard.id}`);
+				this.dashboards = this.dashboards.filter(filteredDashboard => filteredDashboard.id !== dashboard.id);
+			} catch (error) {
+				console.error('Error deleting dashboard:', error);
+			}
+		},
+		async updateDashboardTitle(id, newTitle) {
+			console.log('Updating dashboard title:', id, newTitle);
+            try {
+                //const dashboard = this.findDashboard(id);
+				const response = await axios.get("http://127.0.0.1:8000/api/getdashboard/"+id);
+				const dashboard = response.data;
+
+				console.log('Found dashboard:', dashboard);
+                if (dashboard) {
+                    const response = await axios.put(`http://127.0.0.1:8000/api/dashboard/${dashboard.id}/title`, {
+                        title: newTitle,
+                    });
+					this.replaceDashboard(dashboard.id, response.data);
+                    this.selectedDashboardTitle = newTitle;
+                }
+            } catch (error) {
+                console.error('Error updating dashboard title:', error);
+            }
         },
+
+		replaceDashboard(id, newDashboard) {
+			const index = this.dashboards.findIndex(dashboard => dashboard.id === id);
+			console.log(index)
+			this.dashboards[index] = newDashboard;
+		}
+
     },
 });

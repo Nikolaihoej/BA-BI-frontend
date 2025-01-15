@@ -1,12 +1,15 @@
 <template>
   <div v-if="mineBoards.length > 0" class="dashboard-cards-container">
-    <router-link v-for="board in mineBoards" :key="board.id" :to="`/dashboard/${board.title}`" class="dashboard-card">
+    <div v-for="board in mineBoards" :key="board.id" class="dashboard-card">
       <div class="dashboard-card-content">
-        <div class="dashboard-card-items p-2">
-          Dashboard - {{ board.title }}
+        <div @click="deleteBoard(board.id)">
+          <i class="bi bi-trash trashbin"></i>
         </div>
+        <router-link :to="`/dashboard/${board.id}`" class="dashboard-card-items">
+          Dashboard - {{ board.title }}
+        </router-link>
       </div>
-    </router-link>
+    </div>
   </div>
 </template>
 
@@ -19,6 +22,10 @@
   const mineBoards = computed(() => {
       return DashboardStore.dashboards.filter(board => board.category === 'mine');
   });
+
+  const deleteBoard = async (id) => {
+      await DashboardStore.deleteDashboard(id);
+  };
 </script>
 
 <style scoped>
@@ -38,11 +45,26 @@
   cursor: pointer;
 }
 
+.trashbin {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  font-size: 16px;
+  transition: ease-in-out 0.3s;
+  z-index: 4;
+}
+
+.trashbin:hover {
+  color: red;
+}
+
 .dashboard-card {
   text-decoration: none;
 }
 
 .dashboard-card-items {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: 600;
   color: white;

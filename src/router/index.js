@@ -20,7 +20,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
    },
    {
-      path: '/dashboard/:title',
+      path: '/dashboard/:id',
       name: 'dashboardWithTitle',
       component: dashboard,
       props: true,
