@@ -1,6 +1,6 @@
 <template>
   <div class="user-initial" @click="toggleDropdown">
-    <div class="dropdown userSettings d-flex justify-content-center align-items-center">J</div>
+    <div class="dropdown userSettings d-flex justify-content-center align-items-center">F</div>
     <ul v-if="dropdownVisible" class="dropdown-menu">
         <li class="account-info">
           <h4>Account</h4>
