@@ -1,52 +1,54 @@
 <template>
-  <div class="chart-container">
-      <canvas ref="chartCanvas"></canvas>
-  </div>
+    <div class="chart-container">
+        <canvas ref="chartCanvas"></canvas>
+    </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import Chart from 'chart.js/auto';
-import { defineProps } from 'vue';
+import { ref, onMounted, watch } from "vue";
+import Chart from "chart.js/auto";
+import { defineProps } from "vue";
 
 const props = defineProps({
-labels: Array,
-data: Array
+    labels: Array,
+    data: Array,
 });
 
 const chartCanvas = ref(null);
 let chartInstance = null;
 
 const createChart = () => {
-const ctx = chartCanvas.value.getContext('2d');
-chartInstance = new Chart(ctx, {
-  type: 'pie',
-  data: {
-    labels: props.labels,
-    datasets: [{
-      data: props.data,
-      backgroundColor: props.colors,
-      borderWidth: 1,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-  }
-});
+    const ctx = chartCanvas.value.getContext("2d");
+    chartInstance = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: props.labels,
+            datasets: [
+                {
+                    data: props.data,
+                    backgroundColor: props.colors,
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        },
+    });
 };
 
 const updateChart = () => {
-  if (chartInstance) {
-  chartInstance.data.labels = props.labels;
-  chartInstance.data.datasets[0].data = props.data;
-  chartInstance.data.datasets[0].backgroundColor = props.colors;
-  chartInstance.update();
-}
+    if (chartInstance) {
+        chartInstance.data.labels = props.labels;
+        chartInstance.data.datasets[0].data = props.data;
+        chartInstance.data.datasets[0].backgroundColor = props.colors;
+        chartInstance.update();
+    }
 };
 
 onMounted(() => {
-createChart();
+    createChart();
 });
 
 watch(() => props.labels, updateChart);
@@ -56,7 +58,7 @@ watch(() => props.colors, updateChart);
 
 <style>
 .chart-container {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 </style>
