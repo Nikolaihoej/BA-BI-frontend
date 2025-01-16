@@ -18,14 +18,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, } from "vue";
 import { useRouter } from "vue-router";
 
 const dropdownVisible = ref(false);
 const router = useRouter();
 
-const userName = ref("John Doe");
-const userEmail = ref("john.doe@example.com");
+const userName = ref("Fit Center");
+const userEmail = ref("Fitcenter@email.com");
 
 function toggleDropdown() {
   dropdownVisible.value = !dropdownVisible.value;
@@ -34,6 +34,7 @@ function toggleDropdown() {
 function logout() {
   router.push('/login');
 }
+
 </script>
 
 <style scoped>
