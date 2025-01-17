@@ -30,13 +30,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const apiStore = useApiStore();
     const token = localStorage.getItem("jwtToken");
     if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!apiStore.jwtToken) {
+        if (!token) {
             next({ name: "login" });
         } else {
             next();
