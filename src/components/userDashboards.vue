@@ -6,7 +6,7 @@
             </div>
             <div class="solid-breaker"></div>
             <div class="personal-dashboard-title">
-                <h3>Personal Dashboard</h3>
+                <h3>Personlige Dashboards</h3>
             </div>
             <div class="overview-content d-flex">
                 <dashboardCard />
