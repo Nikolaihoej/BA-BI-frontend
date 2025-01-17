@@ -32,11 +32,11 @@ export const useDashboardStore = defineStore("dashboard", {
             });
             this.showDashboard(title); // Show the newly added dashboard
         },
+         //ny funktion
         findDashboard(id) {
-            const t= this.dashboards.find(dashboard => dashboard.id === id);
-			return t;
+            const foundDashboard = this.dashboards.find(dashboard => dashboard.id === id);
+			return foundDashboard;
 		},
-        //ny funktion
         async loadSelectedDashboard(id) {
             const response = await axios.get(`http://127.0.0.1:8000/api/getdashboard/${id}`);
             const dashboard = response.data;
