@@ -21,12 +21,10 @@
                     <button class="btn bluebtn" type="submit">LOG IN</button>
                 </div>
                 <div>
-                    <p class="text-center pt-4">
-                        Don't have an account?
-                        <router-link to="/register" class="bluetext"
-                            >Sign up</router-link
-                        >
-                    </p>
+                    <p class="text-center pt-4">Don't have an account?
+                    <router-link to="/register" class="bluetext">
+                        Sign up
+                    </router-link></p>
                 </div>
             </form>
         </div>

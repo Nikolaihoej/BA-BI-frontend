@@ -32,6 +32,10 @@ export const useDashboardStore = defineStore("dashboard", {
             });
             this.showDashboard(title); // Show the newly added dashboard
         },
+        findDashboard(id) {
+            const t= this.dashboards.find(dashboard => dashboard.id === id);
+			return t;
+		},
         //ny funktion
         async loadSelectedDashboard(id) {
             const response = await axios.get(`http://127.0.0.1:8000/api/getdashboard/${id}`);
@@ -62,10 +66,6 @@ export const useDashboardStore = defineStore("dashboard", {
                 console.error('Error loading dashboards:', error);
             }
         },
-        findDashboard(id) {
-            const t= this.dashboards.find(dashboard => dashboard.id === id);
-			return t;
-		},
 		async deleteDashboard(id) {
 			try { 
 				const dashboard = this.findDashboard(id);
@@ -78,7 +78,6 @@ export const useDashboardStore = defineStore("dashboard", {
 		async updateDashboardTitle(id, newTitle) {
 			console.log('Updating dashboard title:', id, newTitle);
             try {
-                //const dashboard = this.findDashboard(id);
 				const response = await axios.get("http://127.0.0.1:8000/api/getdashboard/"+id);
 				const dashboard = response.data;
 
