@@ -2,8 +2,8 @@
     <div v-if="mineBoards.length > 0" class="dashboard-cards-container">
         <div v-for="board in mineBoards" :key="board.id" class="dashboard-card">
             <div class="dashboard-card-content">
-                <div @click="deleteBoard(board.id)">
-                    <i class="bi bi-trash trashbin"></i>
+                <div class="trashbin-container">
+                    <i class="bi bi-trash trashbin" @click="deleteBoard(board.id)"></i>
                 </div>
                 <router-link :to="`/dashboard/${board.id}`" class="dashboard-card-items">
                     Dashboard - {{ board.title }}
@@ -34,25 +34,27 @@ const deleteBoard = async (id) => {
 .dashboard-cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Adjust the gap between cards as needed */
+    gap: 10px;
 }
 
 .dashboard-card-content {
-    width: 230px;
-    max-width: 230px;
+    width: 260px;
     height: 85px;
     background-color: #354551;
     padding: 12px 6px;
     cursor: pointer;
 }
 
-.trashbin {
+.trashbin-container {
     display: flex;
     justify-content: flex-end;
+}
+
+.trashbin {
     color: white;
     font-size: 16px;
     transition: ease-in-out 0.3s;
-    z-index: 4;
+    
 }
 
 .trashbin:hover {
@@ -70,5 +72,9 @@ const deleteBoard = async (id) => {
     font-weight: 600;
     color: white;
     text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 260px;
 }
 </style>
