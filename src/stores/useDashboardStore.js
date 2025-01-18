@@ -76,12 +76,10 @@ export const useDashboardStore = defineStore("dashboard", {
 			}
 		},
 		async updateDashboardTitle(id, newTitle) {
-			console.log('Updating dashboard title:', id, newTitle);
             try {
 				const response = await axios.get("http://127.0.0.1:8000/api/getdashboard/"+id);
 				const dashboard = response.data;
 
-				console.log('Found dashboard:', dashboard);
                 if (dashboard) {
                     const response = await axios.put(`http://127.0.0.1:8000/api/dashboard/${dashboard.id}/title`, {
                         title: newTitle,
@@ -96,7 +94,6 @@ export const useDashboardStore = defineStore("dashboard", {
 
 		replaceDashboard(id, newDashboard) {
 			const index = this.dashboards.findIndex(dashboard => dashboard.id === id);
-			console.log(index)
 			this.dashboards[index] = newDashboard;
 		}
 

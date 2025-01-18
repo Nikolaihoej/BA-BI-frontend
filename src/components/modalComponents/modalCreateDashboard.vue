@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useDashboardStore } from "../../stores/useDashboardStore";
 import axios from "axios";
 
@@ -54,7 +54,6 @@ const saveDashboard = async () => {
 
     try {
         const response = await axios.post("http://127.0.0.1:8000/api/dashboard", dashboard);
-        console.log("Dashboard saved successfully:", response.data);
         DashboardStore.addDashboard(dashboardTitle.value, dashboardCategory.value, response.data.id);
         closeModal();
     } catch (error) {

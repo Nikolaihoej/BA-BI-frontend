@@ -41,11 +41,10 @@ export const useApiStore = defineStore("apiStore", {
                 );
 
                 // Store the JWT token
-                this.jwtToken = response.data.token;
+                this.jwtToken = response.data.token; // saves the token in jwtToken
                 localStorage.setItem("jwtToken", this.jwtToken);
                 axios.defaults.headers.common["Authorization"] = `Bearer ${this.jwtToken}`;
 
-                console.log("Login successful:", response.data);
                 return response.data;
             } catch (error) {
                 console.error("Login failed:", error);
