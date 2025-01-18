@@ -33,10 +33,8 @@ const newTitle = ref(dashboardStore.selectedDashboardTitle);
 
 onMounted(() => {
     const route = useRoute();
-    console.log(route.params.id);
     dashboardStore.loadSelectedDashboard(route.params.id);
     gridStackStore.setGridStackItemsComponent(gridStackItemsComponent.value);
-    console.log(dashboardStore.dashboards);
 });
 
 const route = useRoute();
