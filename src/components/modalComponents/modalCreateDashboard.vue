@@ -62,14 +62,6 @@ const saveDashboard = async () => {
     }
 };
 
-onMounted(() => {
-    const savedDashboard = localStorage.getItem("savedDashboard");
-    if (savedDashboard) {
-        const { title, category } = JSON.parse(savedDashboard);
-        dashboardTitle.value = title;
-        dashboardCategory.value = category;
-    }
-});
 </script>
 
 <style>
