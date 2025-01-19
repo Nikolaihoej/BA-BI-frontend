@@ -84,7 +84,7 @@ export const useDashboardStore = defineStore("dashboard", {
                     const response = await axios.put(`http://127.0.0.1:8000/api/dashboard/${dashboard.id}/title`, {
                         title: newTitle,
                     });
-					this.replaceDashboard(dashboard.id, response.data);
+					this.replaceDashboardTitle(dashboard.id, response.data);
                     this.selectedDashboardTitle = newTitle;
                 }
             } catch (error) {
@@ -92,7 +92,7 @@ export const useDashboardStore = defineStore("dashboard", {
             }
         },
 
-		replaceDashboard(id, newDashboard) {
+		replaceDashboardTitle(id, newDashboard) {
 			const index = this.dashboards.findIndex(dashboard => dashboard.id === id);
 			this.dashboards[index] = newDashboard;
 		}
